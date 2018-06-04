@@ -62,7 +62,7 @@ class GaQueens:
                     # print result as a one lined list
                     print(population.queens)
                     # print result as a nice game board
-                    population.print_board()
+                    print(population)
 
     def is_goal_reached(self):
         """Return True if current population reached goal."""

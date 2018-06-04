@@ -91,37 +91,17 @@ class Board:
                     que no pueden encontrarse en la misma columna ni linea'''
                     self.fitness -= 1
 
-    def print_board(self):
-        """Print current board in a nice way!."""
-        for row in range(self.size):
-            print("", end="|")
-
-            queen = self.queens.index(row)
-
-            for col in range(self.size):
-                if col == queen:
-                    print("Q", end="|")
-                else:
-                    print("_", end="|")
-            print("")
+    def extract_row(self, queen_pos):
+        queen = self.queens.index(queen_pos)
+        row = [('Q' if y == queen else '_') for y in range(self.size)]
+        str = '|'.join(row)
+        return '|' + str + '|\n'
 
     def __str__(self):
         """Print current board in a nice way!."""
-        for row in range(self.size):
-            print("", end="|")
-            queen = self.queens.index(row)
-            print(queen)
-            for col in range(self.size):
-                if col == queen:
-                    # print("Q", end="|")
-                    print(col)
-                else:
-                    # print("_", end="|")
-                    print(col)
-            print("")
-        # lambda i, j: ('Q|' if self.queens.index(i) ==
-        #               j else '_|'), range(self.size)
-        # return '\n|'
+        s = list(range(self.size))
+        return '\n' + ''.join(list(map(lambda i: self.extract_row(i), s))) \
+            + '\n'
 
     def __rpr__(self):
         """Print current board in a nice way!."""
