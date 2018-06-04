@@ -3,26 +3,26 @@ import sys
 from GaQueens import GaQueens
 
 if __name__ == '__main__':
-    # default values
-    # size of board also shows how many queens are in game
-    board_size = 6
-    # size of each generation
-    population_size = 10
-    # how many generations should I check
-    # -1 for no generation limit. (search to find a result)
-    generation_size = -1
+    # Valores por defecto
+    # el tamaño por defecto del tablero
+    board_size = 8
+    # tamaño de cada generación
+    population_size = 16
+    # número de generaciones que revisará el algoritmo
+    # -1 para no tener limite. (Se detendra una vez que encuentra la solución)
+    generation_size = 16
 
-    # if there is arguments use them instead of default values
+    # si se manda a llamar el programa desde linea de comandos con argumentos
     if len(sys.argv) == 4:
         board_size = int(sys.argv[1])
         population_size = int(sys.argv[2])
         generation_size = int(sys.argv[3])
 
-    # print some information about current quest!
-    print("Starting:")
-    print("    board size      : ", board_size)
-    print("    population size : ", population_size)
-    print("    generation size : ", generation_size)
+    # Imprime los valores actuales para el algoritmo
+    print("Iniciando:")
+    print("    Tamano de tablero      : ", board_size)
+    print("    Tamano de poblacion    : ", population_size)
+    print("    Tamano de generaciones : ", generation_size)
     print("==================================================================")
 
     # Run!

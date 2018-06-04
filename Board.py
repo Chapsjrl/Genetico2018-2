@@ -78,9 +78,9 @@ class Board:
             self.switch(1)
 
     def compute_fitness(self):
-        """Compute fitness of current board.
+        """Calcula la aptitud del individuo.
 
-        Bigger number is better.
+        Un numero más grande es mejor.
         """
         self.fitness = self.goal
 
@@ -92,17 +92,18 @@ class Board:
                     self.fitness -= 1
 
     def extract_row(self, queen_pos):
+        """Extrae la cadena para cada renglon."""
         queen = self.queens.index(queen_pos)
         row = [('Q' if y == queen else '_') for y in range(self.size)]
         str = '|'.join(row)
         return '|' + str + '|\n'
 
     def __str__(self):
-        """Print current board in a nice way!."""
+        """Imprime la configuracion a modo de tablero!."""
         s = list(range(self.size))
         return '\n' + ''.join(list(map(lambda i: self.extract_row(i), s))) \
             + '\n'
 
     def __rpr__(self):
-        """Print current board in a nice way!."""
+        """Imprime la configuracion a modo de tablero!."""
         return self.__str__()

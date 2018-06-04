@@ -17,65 +17,65 @@ class GaQueens:
 
     def __init__(self, board_size, population_size, generation_size):
         """Construye el objeto de algoritmo genético."""
-        # store values to class properties
+        # Almacena las propiedadeas de la clase
         self.board_size = board_size
         self.population_size = population_size
         self.generation_size = generation_size
 
-        # counts how many generations checked
+        # Cuenta el número de generaciones
         self.generation_count = 0
-        # fitness value of goal
+        # Valor de aptitud para terminar
         self.goal = int((self.board_size * (self.board_size - 1)) / 2)
 
-        # current populations will go here
+        # Lista con la poblacion actual
         self.population = []
 
-        # creates the first population
+        # Se crea la primera poblacion
         self.first_generation()
 
         while True:
-            # if current population reached goal stop checking
+            # se detiene si se alcanza la meta
             if self.is_goal_reached() is True:
                 break
-            # don't create more generations if program reached generation_size
+            # no se crean mas generaciones si se llegó al limite
             if -1 < self.generation_size <= self.generation_count:
                 break
 
-            # create another generation from last generation
-            # (discards old generation)
+            # se crea una nueva generacion a partir de la anterior
+            # (Se descarta la generacion anterior)
             self.next_generation()
 
-        # prints program result and exits
+        # Impresion de resultados
         print("==============================================================\
-        ====")
+====")
 
-        # if couldn't find answer
+        # Si no se encuentra la solucion
         if -1 < self.generation_size <= self.generation_count:
-            print("Couldn't find result in %d generations" %
+            print("No se pudo encontrar solucion en %d generaciones" %
                   self.generation_count)
-        # if there was a result, print it
+        # Si se encuentra la solucion se imprime
         elif self.is_goal_reached():
-            print("Correct Answer found in generation %s" %
+            print("Se encontro la solucion en la generacion %s" %
                   self.generation_count)
-            for population in self.population:
-                if population.fitness == self.goal:
-                    # print result as a one lined list
-                    print(population.queens)
-                    # print result as a nice game board
-                    print(population)
+            for item in self.population:
+                if item.fitness == self.goal:
+                    # se imprime la lista de la configuracion
+                    print(item.queens)
+                    # se imprime el objeto con la solucion
+                    print(item)
 
     def is_goal_reached(self):
-        """Return True if current population reached goal."""
-        for population in self.population:
-            if population.fitness == self.goal:
+        """Regresa True si fue alcanzada la meta."""
+        for item in self.population:
+            if item.fitness == self.goal:
                 return True
         return False
 
     def random_selection(self):
-        """Select some items from current population for next generation.
+        """Seleciona individuos de esta generacion para la siguiente.
 
-        selection are items with highest fit value
-        returns a list of selections.
+        La seleccion se realiza por medio de la aptitud del individuo y se
+        regresa en forma de lista.
         """
         population_list = []
         for i in range(len(self.population)):
@@ -84,58 +84,58 @@ class GaQueens:
         return population_list[:int(len(population_list) / 3)]
 
     def first_generation(self):
-        """Create the first generation."""
+        """Se crea la primera generación."""
         for i in range(self.population_size):
             self.population.append(Board(self.board_size, self.goal))
 
         self.print_population()
 
     def next_generation(self):
-        """Create next generations (all except first one)."""
-        # add to generation counter
+        """Crea las siguientes generaciones (excepto la primera)."""
+        # agregamos uno al contador de generaciones
         self.generation_count += 1
 
-        # get a list of selections to create next generation
+        # obtenemos la lista de selecionados de esta generacion
         selections = self.random_selection()
 
-        # creates a new population using given selection
+        # se crea la nueva generacion a partir de los seleccionados
         new_population = []
         while len(new_population) < self.population_size:
             sel = random.choice(selections)[0]
             new_population.append(copy.deepcopy(self.population[sel]))
         self.population = new_population
 
-        # make random changes to current population
-        for population in self.population:
-            population.regenerate()
+        # se realizan cambios aleatorios a la generacion
+        for item in self.population:
+            item.regenerate()
 
         self.print_population(selections)
 
     def print_population(self, selections=None):
-        """Print all items in current population.
+        """Imprime la generación actual.
 
-        Population #15
-            Using: [1]
+        Generacion #15
+            Usando: [1]
             0 : (25) [6, 1, 3, 0, 2, 4, 7, 5]
-        line 1: Population #15
-            shows current population id
-        line 2: Using: [1]
-            shows id of items from last generation
-            used for creating current generation
-        line 3: 0 : (25) [0, 1, 2, 3, 4, 5, 6, 7]
-            0 -> item is
-            (25) -> fitness for current item
-            [0, 1, 2, 3, 4, 5, 7] -> queen positions in current item.
+        linea 1: Generacion #15
+            muestra el id de la generación actual
+        linea 2: Usando: [1]
+            muestra el id de los elementos de la generación anterior
+            ocupados para la nueva generación
+        linea 3: 0 : (25) [0, 1, 2, 3, 4, 5, 6, 7]
+            0 -> id del elemento
+            (25) -> aptitud del elemento
+            [0, 1, 2, 3, 4, 5, 7] -> posiciones de las reinas en el elemento.
         """
-        print("Population #%d" % self.generation_count)
+        print("Generacion #%d" % self.generation_count)
 
         if selections is None:
             selections = []
 
-        print("       Using: %s" % str([sel[0] for sel in selections]))
+        print("\tUsando: %s" % str([sel[0] for sel in selections]))
 
         count = 0
-        for population in self.population:
+        for item in self.population:
             print("%8d : (%d) %s" %
-                  (count, population.fitness, str(population.queens)))
+                  (count, item.fitness, str(item.queens)))
             count += 1
