@@ -8,7 +8,6 @@ __version__ = '0.0.1'
 """
 import copy
 import random
-import sys
 
 from Board import Board
 
