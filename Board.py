@@ -99,6 +99,7 @@ class Board:
         return '|' + str + '|\n'
 
     def list_coords(self):
+        """Extrae la configuracion en un arreglo de tuplas."""
         list = []
         for row in range(self.size):
             queen = self.queens.index(row)
