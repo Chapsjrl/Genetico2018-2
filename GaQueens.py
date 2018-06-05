@@ -33,6 +33,7 @@ class GaQueens:
         # Se crea la primera poblacion
         self.first_generation()
         self.status = ""
+        self.solution = Board()
 
         while True:
             # se detiene si se alcanza la meta
@@ -63,7 +64,7 @@ class GaQueens:
                     # se imprime la lista de la configuracion
                     print(item.queens)
                     # se imprime el objeto con la solucion
-                    print(item)
+                    self.solution = item
 
     def is_goal_reached(self):
         """Regresa True si fue alcanzada la meta."""

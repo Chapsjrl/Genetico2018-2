@@ -98,6 +98,15 @@ class Board:
         str = '|'.join(row)
         return '|' + str + '|\n'
 
+    def list_coords(self):
+        list = []
+        for row in range(self.size):
+            queen = self.queens.index(row)
+            for col in range(self.size):
+                if col == queen:
+                    list.append((row, col))
+        return list
+
     def __str__(self):
         """Imprime la configuracion a modo de tablero!."""
         s = list(range(self.size))

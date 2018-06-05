@@ -5,6 +5,7 @@
 # In conjunction with Tcl version 8.6
 #    Jun 04, 2018 08:42:31 PM
 
+import base64
 import sys
 
 from GaQueens import GaQueens
@@ -25,7 +26,18 @@ except ImportError:
 # spinbox2 = StringVar(root, '10')
 # spinbox3 = StringVar(root, '-1')
 
+with open("qeen.png", "rb") as image_file:
+    encoded_string = base64.b64encode(image_file.read())
+
 root = Tk()
+TProgressbar1 = ttk.Progressbar(root, orient="horizontal",
+                                mode="determinate")
+TProgressbar1['maximum'] = 100
+TProgressbar1.place(relx=0.02, rely=0.21,
+                    relwidth=0.3, relheight=0.0, height=22)
+
+player1 = PhotoImage(data=encoded_string)
+player1 = player1.subsample(3)
 
 
 def vp_start_gui():
@@ -140,14 +152,9 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Scrolledtreeview1.column("Col1", stretch="1")
         self.Scrolledtreeview1.column("Col1", anchor="w")
 
-        self.TProgressbar1 = ttk.Progressbar(top)
-        self.TProgressbar1.place(relx=0.02, rely=0.21,
-                                 relwidth=0.3, relheight=0.0, height=22)
-
         self.TButton1 = ttk.Button(top)
         self.TButton1.place(relx=0.33, rely=0.21, height=25, width=76)
-        self.TButton1.configure(command=lambda: start())
-        # board_size, population_size, generation_size))
+        self.TButton1.configure(command=lambda: self.start())
         self.TButton1.configure(takefocus="")
         self.TButton1.configure(text='''Comenzar''')
 
@@ -221,7 +228,91 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Canvas1.configure(relief=RIDGE)
         self.Canvas1.configure(selectbackground="#c4c4c4")
         self.Canvas1.configure(selectforeground="black")
-        self.Canvas1.configure(width=483)
+        self.Canvas1.configure(width=int(spinbox.get()) * 20)
+        self.Canvas1.bind("<Configure>", self.refresh)
+        # self.Canvas1.bind("<Button-1>", self.refresh)
+
+        self.Label4 = Label(root)
+        self.Label4.place(relx=0.54, rely=0.03, height=31, width=344)
+        self.Label4.configure(background="#d9d9d9")
+        self.Label4.configure(disabledforeground="#a3a3a3")
+        self.Label4.configure(foreground="#000000")
+        self.Label4.configure(width=344)
+        self.pieces = {}
+        self.size = 20
+
+    def refresh(self, event):
+        '''Redraw the board, possibly in response to window being resized'''
+        xsize = int((event.width - 1) / int(spinbox.get()))
+        ysize = int((event.height - 1) / int(spinbox.get()))
+        self.size = min(xsize, ysize)
+        self.Canvas1.delete("square")
+        color = "red"
+        for row in range(int(spinbox.get())):
+            color = "black" if color == "red" else "red"
+            for col in range(int(spinbox.get())):
+                x1 = (col * self.size)
+                y1 = (row * self.size)
+                x2 = x1 + self.size
+                y2 = y1 + self.size
+                self.Canvas1.create_rectangle(
+                    x1, y1, x2, y2, outline="black", fill=color, tags="square")
+                color = "black" if color == "red" else "red"
+        for name in self.pieces:
+            self.placepiece(name, self.pieces[name][0], self.pieces[name][1])
+        self.Canvas1.tag_raise("piece")
+        self.Canvas1.tag_lower("square")
+
+    def refresh2(self):
+        '''Redraw the board, possibly in response to window being resized'''
+        width, height = self.Canvas1.winfo_width(), self.Canvas1.winfo_height()
+        xsize = int((width - 1) / int(spinbox.get()))
+        ysize = int((height - 1) / int(spinbox.get()))
+        self.size = min(xsize, ysize)
+        self.Canvas1.delete("square")
+        color = "red"
+        for row in range(int(spinbox.get())):
+            color = "black" if color == "red" else "red"
+            for col in range(int(spinbox.get())):
+                x1 = (col * self.size)
+                y1 = (row * self.size)
+                x2 = x1 + self.size
+                y2 = y1 + self.size
+                self.Canvas1.create_rectangle(
+                    x1, y1, x2, y2, outline="black", fill=color, tags="square")
+                color = "black" if color == "red" else "red"
+        for name in self.pieces:
+            self.placepiece(name, self.pieces[name][0], self.pieces[name][1])
+        self.Canvas1.tag_raise("piece")
+        self.Canvas1.tag_lower("square")
+
+    def addpiece(self, name, image, row=0, column=0):
+        '''Add a piece to the playing board'''
+        self.Canvas1.create_image(
+            0, 0, image=image, tags=(name, "piece"), anchor="c")
+        self.placepiece(name, row, column)
+
+    def placepiece(self, name, row, column):
+        '''Place a piece at the given row/column'''
+        self.pieces[name] = (row, column)
+        x0 = (column * self.size) + int(self.size / 2)
+        y0 = (row * self.size) + int(self.size / 2)
+        self.Canvas1.coords(name, x0, y0)
+
+    def start(self):
+        sl = GaQueens(int(spinbox.get()), int(spinbox2.get()),
+                      int(spinbox3.get()))
+        TProgressbar1['value'] = int(float(sl.generation_count) * 100
+                                     / (TProgressbar1['maximum'] /
+                                        sl.generation_size))
+        self.Label4.configure(text=sl.status)
+        list = sl.solution.list_coords()
+        i = 0
+        for tupla in list:
+            id = "player{}".format(i)
+            self.addpiece(id, player1, tupla[0], tupla[1])
+            i += 1
+        self.refresh2()
 
 
 # The following code is added to facilitate the Scrolled widgets you specified.
@@ -300,17 +391,6 @@ class ScrolledTreeView(AutoScroll, ttk.Treeview):
     def __init__(self, master, **kw):
         ttk.Treeview.__init__(self, master, **kw)
         AutoScroll.__init__(self, master)
-
-
-def start():
-    sl = GaQueens(int(spinbox.get()), int(spinbox2.get()), int(spinbox3.get()))
-    Label4 = Label(root)
-    Label4.place(relx=0.54, rely=0.03, height=31, width=344)
-    Label4.configure(background="#d9d9d9")
-    Label4.configure(disabledforeground="#a3a3a3")
-    Label4.configure(foreground="#000000")
-    Label4.configure(width=344)
-    Label4.configure(text=sl.status)
 
 
 def init(top, gui, *args, **kwargs):
