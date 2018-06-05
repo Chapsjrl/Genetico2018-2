@@ -32,6 +32,7 @@ class GaQueens:
 
         # Se crea la primera poblacion
         self.first_generation()
+        self.status = ""
 
         while True:
             # se detiene si se alcanza la meta
@@ -51,12 +52,12 @@ class GaQueens:
 
         # Si no se encuentra la solucion
         if -1 < self.generation_size <= self.generation_count:
-            print("No se pudo encontrar solucion en %d generaciones" %
-                  self.generation_count)
+            self.status = "No se pudo encontrar solucion en {} generaciones"\
+                .format(self.generation_count)
         # Si se encuentra la solucion se imprime
         elif self.is_goal_reached():
-            print("Se encontro la solucion en la generacion %s" %
-                  self.generation_count)
+            self.status = "Se encontro la solucion en la generacion {} "\
+                .format(self.generation_count)
             for item in self.population:
                 if item.fitness == self.goal:
                     # se imprime la lista de la configuracion
