@@ -194,7 +194,7 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Spinbox2.configure(to="100.0")
 
         self.Spinbox3 = Spinbox(
-            top, from_=-1.0, to=100.0, textvariable=spinbox3)
+            top, from_=-1.0, to=10000.0, textvariable=spinbox3)
         self.Spinbox3.place(relx=0.28, rely=0.14,
                             relheight=0.03, relwidth=0.13)
         self.Spinbox3.configure(activebackground="#f9f9f9")
