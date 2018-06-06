@@ -31,11 +31,6 @@ with open("qeen.png", "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read())
 
 root = Tk()
-TProgressbar1 = ttk.Progressbar(root, orient="horizontal",
-                                mode="determinate")
-TProgressbar1['maximum'] = 100
-TProgressbar1.place(relx=0.02, rely=0.21,
-                    relwidth=0.3, relheight=0.0, height=22)
 
 player1 = PhotoImage(data=encoded_string)
 player1 = player1.subsample(3)
@@ -305,9 +300,6 @@ class Algoritmo_gen_tico_con_N_reinas:
     def start(self):
         sl = GaQueens(int(spinbox.get()), int(spinbox2.get()),
                       int(spinbox3.get()))
-        TProgressbar1['value'] = int(float(sl.generation_count) * 100
-                                     / (TProgressbar1['maximum'] /
-                                        sl.generation_size))
         self.Label4.configure(text=sl.status)
         list = sl.solution.list_coords()
         i = 0
