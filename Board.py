@@ -40,6 +40,7 @@ class Board:
 
         Args:
             size (int): Tamaño del tablero.
+            goal (int): Aptitud meta.
         """
         if size >= 4:
             self.size = size
