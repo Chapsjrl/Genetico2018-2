@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """Clase que contiene el Puzzle a resolver.
 
-Representación de n tablero con N reinas en él. Esta representación esta dada
-por un arreglo de n enteros, la posición del numero en el arreglo representa
-la columna del tablero y el valor para esa posción representa el renglon que
+Representación de un tablero con N reinas en él. Esta representación esta dada
+por un arreglo de N enteros, la posición del número en el arreglo representa
+la columna del tablero y el valor para esa posción representa el renglón que
 ocupa la reina en el tablero.
 
 Todas las transformaciones se hacen con intercambios para asegurar que toda la
 población sea valida. La representación elegida también evita que existan dos
-reinas en la misma coluna o en el mismo renglón, lo que significa que sólo de-
+reinas en la misma columna o en el mismo renglón, lo que significa que sólo de-
 bemos preocuparnos por las reinas en diagonal.
 
 [2, 5, 1, 4, 0, 3]
@@ -74,7 +74,7 @@ class Board:
         self.switch(2)
 
         # Mutación con probabilidad de 0.25
-        if random.uniform(0, 1) < 0.25:
+        if random.uniform(0, 1) < 0.01:
             self.switch(1)
 
     def compute_fitness(self):
@@ -103,9 +103,7 @@ class Board:
         list = []
         for row in range(self.size):
             queen = self.queens.index(row)
-            for col in range(self.size):
-                if col == queen:
-                    list.append((row, col))
+            list.append((row, queen))
         return list
 
     def __str__(self):
