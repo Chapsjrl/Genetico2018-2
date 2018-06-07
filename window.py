@@ -131,7 +131,7 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Label3.configure(foreground="#000000")
         self.Label3.configure(highlightbackground="#d9d9d9")
         self.Label3.configure(highlightcolor="black")
-        self.Label3.configure(text="""Taño de tablero:""")
+        self.Label3.configure(text="""Tamaño de tablero:""")
 
         self.style.configure('Treeview.Heading',  font="TkDefaultFont")
         self.Scrolledtreeview1 = ScrolledTreeView(top)
