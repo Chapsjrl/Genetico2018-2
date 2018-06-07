@@ -151,10 +151,11 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Scrolledtreeview1.column("Col1", anchor="w")
 
         self.TButton1 = ttk.Button(top)
-        self.TButton1.place(relx=0.33, rely=0.21, height=25, width=76)
-        self.TButton1.configure(command=lambda: self.start())
+        self.TButton1.place(relx=0.17, rely=0.19, height=35, width=106)
         self.TButton1.configure(takefocus="")
-        self.TButton1.configure(text="""Comenzar""")
+        self.TButton1.configure(text='''Comenzar''')
+        self.TButton1.configure(width=106)
+        self.TButton1.configure(command=lambda: self.start())
 
         self.Spinbox1 = Spinbox(top, from_=4.0, to=100.0, textvariable=spinbox)
         self.Spinbox1.place(relx=0.28, rely=0.03,
@@ -230,12 +231,16 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Canvas1.bind("<Configure>", self.refresh)
         # self.Canvas1.bind("<Button-1>", self.refresh)
 
-        self.Label4 = Label(root)
-        self.Label4.place(relx=0.54, rely=0.03, height=31, width=344)
+        self.Label4 = Label(top)
+        self.Label4.place(relx=0.53, rely=0.03, height=31, width=394)
+        self.Label4.configure(activebackground="#f9f9f9")
+        self.Label4.configure(activeforeground="black")
         self.Label4.configure(background="#d9d9d9")
         self.Label4.configure(disabledforeground="#a3a3a3")
         self.Label4.configure(foreground="#000000")
-        self.Label4.configure(width=344)
+        self.Label4.configure(highlightbackground="#d9d9d9")
+        self.Label4.configure(highlightcolor="black")
+        self.Label4.configure(width=394)
         self.pieces = {}
         self.size = 20
 

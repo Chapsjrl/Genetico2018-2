@@ -55,16 +55,19 @@ class GaQueens:
         if -1 < self.generation_size <= self.generation_count:
             self.status = "No se pudo encontrar solucion en {} generaciones"\
                 .format(self.generation_count)
+            print(self.status)
         # Si se encuentra la solucion se imprime
         elif self.is_goal_reached():
             self.status = "Se encontro la solucion en la generacion {} "\
                 .format(self.generation_count)
+            print(self.status)
             for item in self.population:
                 if item.fitness == self.goal:
                     # se imprime la lista de la configuracion
                     print(item.queens)
                     # se imprime el objeto con la solucion
                     self.solution = item
+                    print(item)
 
     def is_goal_reached(self):
         """Regresa True si fue alcanzada la meta."""
