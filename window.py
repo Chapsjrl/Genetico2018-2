@@ -319,9 +319,9 @@ class Algoritmo_gen_tico_con_N_reinas:
             i += 1
 
     def set_tree(self, algoritmo):
-        for g in range(algoritmo.generation_count):
+        for g in range(algoritmo.generation_count + 1):
             population = algoritmo.generations[g]
-            gen_str = "Generación {}".format(g + 1)
+            gen_str = "Generación {}".format(g)
             id_str = "gen{}".format(g)
             id = self.Scrolledtreeview1.insert("", g, id_str, text=gen_str)
             for item in population:
