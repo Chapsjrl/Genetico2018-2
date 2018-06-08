@@ -38,7 +38,7 @@ class GaQueens:
         self.population = []
 
         file_name = "Generaciones " + time.strftime("%H-%M") + ".txt"
-        self.file = open(file_name, mode="w")
+        self.file = open(file_name, mode="a")
         # Se crea la primera poblacion
         self.first_generation()
 
@@ -79,7 +79,10 @@ class GaQueens:
                     self.solution = item
                     print(item)
                     self.file.write(str(item) + '\n')
-                    self.file.close()
+
+    def __del__(self):
+        self.file.close()
+        print("File closed")
 
     def is_goal_reached(self):
         """Regresa True si fue alcanzada la meta."""
