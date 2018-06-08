@@ -21,6 +21,12 @@ class GaQueens:
         self.board_size = board_size
         self.population_size = population_size
         self.generation_size = generation_size
+        # Cadena de terminación
+        self.status = ""
+        # Tablero con la solución
+        self.solution = Board()
+        # Diccionario con generaciones
+        self.generations = {}
 
         # Cuenta el número de generaciones
         self.generation_count = 0
@@ -32,8 +38,6 @@ class GaQueens:
 
         # Se crea la primera poblacion
         self.first_generation()
-        self.status = ""
-        self.solution = Board()
 
         while True:
             # se detiene si se alcanza la meta
