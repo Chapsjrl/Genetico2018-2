@@ -37,7 +37,7 @@ player1 = player1.subsample(3)
 
 
 def vp_start_gui():
-    """Starting point when module is the main routine."""
+    """Start point when module is the main routine."""
     global val, w, root, spinbox, spinbox2, spinbox3
     # root = Tk()
     spinbox = StringVar(root, '6')
@@ -52,7 +52,7 @@ w = None
 
 
 def create_Algoritmo_gen_tico_con_N_reinas(root, *args, **kwargs):
-    """Starting point when module is imported by another program."""
+    """Start point when module is imported by another program."""
     global w, w_win, rt
     rt = root
     w = Toplevel(root)
@@ -69,8 +69,10 @@ def destroy_Algoritmo_gen_tico_con_N_reinas():
 
 class Algoritmo_gen_tico_con_N_reinas:
     def __init__(self, top=None):
-        """This class configures and populates the toplevel window.
-           top is the toplevel containing window."""
+        """Class that configures and populates the toplevel window.
+
+        Top is the toplevel containing window.
+        """
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
         _fgcolor = '#000000'  # X11 color: 'black'
         _compcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -245,7 +247,7 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.size = 20
 
     def refresh(self, event):
-        """Redraw the board, possibly in response to window being resized"""
+        """Redraw the board, possibly in response to window being resized."""
         xsize = int((event.width - 1) / int(spinbox.get()))
         ysize = int((event.height - 1) / int(spinbox.get()))
         self.size = min(xsize, ysize)
@@ -267,7 +269,7 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Canvas1.tag_lower("square")
 
     def refresh2(self):
-        """Redraw the board, possibly in response to window being resized"""
+        """Redraw the board qhen pres the button."""
         width, height = self.Canvas1.winfo_width(), self.Canvas1.winfo_height()
         xsize = int((width - 1) / int(spinbox.get()))
         ysize = int((height - 1) / int(spinbox.get()))
@@ -290,28 +292,45 @@ class Algoritmo_gen_tico_con_N_reinas:
         self.Canvas1.tag_lower("square")
 
     def addpiece(self, name, image, row=0, column=0):
-        """Add a piece to the playing board"""
+        """Add a piece to the playing board."""
         self.Canvas1.create_image(
             0, 0, image=image, tags=(name, "piece"), anchor="c")
         self.placepiece(name, row, column)
 
     def placepiece(self, name, row, column):
-        """Place a piece at the given row/column"""
+        """Place a piece at the given row/column."""
         self.pieces[name] = (row, column)
         x0 = (column * self.size) + int(self.size / 2)
         y0 = (row * self.size) + int(self.size / 2)
         self.Canvas1.coords(name, x0, y0)
 
-    def start(self):
-        sl = GaQueens(int(spinbox.get()), int(spinbox2.get()),
-                      int(spinbox3.get()))
-        self.Label4.configure(text=sl.status)
-        list = sl.solution.list_coords()
+    def clear_tree(self):
+        x = self.Scrolledtreeview1.get_children()
+        if x != '()':
+            for child in x:
+                self.Scrolledtreeview1.delete(child)
+
+    def get_queens(self, algoritmo):
+        list = algoritmo.solution.list_coords()
         i = 0
         for tupla in list:
             id = "player{}".format(i)
             self.addpiece(id, player1, tupla[0], tupla[1])
             i += 1
+
+    def set_tree(self, algoritmo):
+        for item in algoritmo.population:
+            self.Scrolledtreeview1.insert("", "end",
+                                          text=str(item.queens),
+                                          values=(item.fitness))
+
+    def start(self):
+        sl = GaQueens(int(spinbox.get()), int(spinbox2.get()),
+                      int(spinbox3.get()))
+        self.Label4.configure(text=sl.status)
+        self.get_queens(sl)
+        self.clear_tree()
+        self.set_tree(sl)
         self.refresh2()
 
 
