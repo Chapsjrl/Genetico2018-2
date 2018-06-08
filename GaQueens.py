@@ -63,6 +63,7 @@ class GaQueens:
             self.status = "No se pudo encontrar solucion en {} generaciones"\
                 .format(self.generation_count)
             print(self.status)
+            self.solution = self.population[0]
             self.file.write(self.status + '\n')
         # Si se encuentra la solucion se imprime
         elif self.is_goal_reached():
