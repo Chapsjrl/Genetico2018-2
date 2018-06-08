@@ -8,6 +8,7 @@ __version__ = '0.0.1'
 """
 import copy
 import random
+import time
 
 from Board import Board
 
@@ -36,6 +37,8 @@ class GaQueens:
         # Lista con la poblacion actual
         self.population = []
 
+        file_name = "Generaciones " + time.strftime("%H-%M") + ".txt"
+        self.file = open(file_name, mode="w")
         # Se crea la primera poblacion
         self.first_generation()
 
@@ -60,18 +63,23 @@ class GaQueens:
             self.status = "No se pudo encontrar solucion en {} generaciones"\
                 .format(self.generation_count)
             print(self.status)
+            self.file.write(self.status + '\n')
         # Si se encuentra la solucion se imprime
         elif self.is_goal_reached():
             self.status = "Se encontro la solucion en la generacion {} "\
                 .format(self.generation_count)
             print(self.status)
+            self.file.write(self.status + '\n')
             for item in self.population:
                 if item.fitness == self.goal:
                     # se imprime la lista de la configuracion
                     print(item.queens)
+                    self.file.write(str(item.queens) + '\n')
                     # se imprime el objeto con la solucion
                     self.solution = item
                     print(item)
+                    self.file.write(str(item) + '\n')
+                    self.file.close()
 
     def is_goal_reached(self):
         """Regresa True si fue alcanzada la meta."""
@@ -138,14 +146,18 @@ class GaQueens:
         """
         self.generations.update({self.generation_count: self.population})
         print("Generacion #%d" % self.generation_count)
+        self.file.write("Generacion #%d\n" % self.generation_count)
 
         if selections is None:
             selections = []
 
         print("\tUsando: %s" % str([sel[0] for sel in selections]))
+        self.file.write("\tUsando: %s\n" % str([sel[0] for sel in selections]))
 
         count = 0
         for item in self.population:
             print("%8d : (%d) %s" %
                   (count, item.fitness, str(item.queens)))
+            self.file.write("%8d : (%d) %s\n" %
+                            (count, item.fitness, str(item.queens)))
             count += 1
