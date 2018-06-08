@@ -136,6 +136,7 @@ class GaQueens:
             (25) -> aptitud del elemento
             [0, 1, 2, 3, 4, 5, 7] -> posiciones de las reinas en el elemento.
         """
+        self.generations.update({self.generation_count: self.population})
         print("Generacion #%d" % self.generation_count)
 
         if selections is None:
