@@ -27,7 +27,7 @@ except ImportError:
 # spinbox2 = StringVar(root, '10')
 # spinbox3 = StringVar(root, '-1')
 
-with open("qeen.png", "rb") as image_file:
+with open("7735732.png", "rb") as image_file:
     encoded_string = base64.b64encode(image_file.read())
 
 root = Tk()
@@ -248,21 +248,23 @@ class Algoritmo_gen_tico_con_N_reinas:
 
     def refresh(self, event):
         """Redraw the board, possibly in response to window being resized."""
+        color1 = "#b1cbdd"
+        color2 = "#b8e0d2"
         xsize = int((event.width - 1) / int(spinbox.get()))
         ysize = int((event.height - 1) / int(spinbox.get()))
         self.size = min(xsize, ysize)
         self.Canvas1.delete("square")
-        color = "red"
+        color = color1
         for row in range(int(spinbox.get())):
-            color = "black" if color == "red" else "red"
+            color = color2 if color == color1 else color1
             for col in range(int(spinbox.get())):
                 x1 = (col * self.size)
                 y1 = (row * self.size)
                 x2 = x1 + self.size
                 y2 = y1 + self.size
                 self.Canvas1.create_rectangle(
-                    x1, y1, x2, y2, outline="black", fill=color, tags="square")
-                color = "black" if color == "red" else "red"
+                    x1, y1, x2, y2, outline=color2, fill=color, tags="square")
+                color = color2 if color == color1 else color1
         for name in self.pieces:
             self.placepiece(name, self.pieces[name][0], self.pieces[name][1])
         self.Canvas1.tag_raise("piece")
@@ -270,22 +272,24 @@ class Algoritmo_gen_tico_con_N_reinas:
 
     def refresh2(self):
         """Redraw the board qhen pres the button."""
+        color1 = "#b1cbdd"
+        color2 = "#b8e0d2"
         width, height = self.Canvas1.winfo_width(), self.Canvas1.winfo_height()
         xsize = int((width - 1) / int(spinbox.get()))
         ysize = int((height - 1) / int(spinbox.get()))
         self.size = min(xsize, ysize)
         self.Canvas1.delete("square")
-        color = "red"
+        color = color1
         for row in range(int(spinbox.get())):
-            color = "black" if color == "red" else "red"
+            color = color2 if color == color1 else color1
             for col in range(int(spinbox.get())):
                 x1 = (col * self.size)
                 y1 = (row * self.size)
                 x2 = x1 + self.size
                 y2 = y1 + self.size
                 self.Canvas1.create_rectangle(
-                    x1, y1, x2, y2, outline="black", fill=color, tags="square")
-                color = "black" if color == "red" else "red"
+                    x1, y1, x2, y2, outline=color2, fill=color, tags="square")
+                color = color2 if color == color1 else color1
         for name in self.pieces:
             self.placepiece(name, self.pieces[name][0], self.pieces[name][1])
         self.Canvas1.tag_raise("piece")
